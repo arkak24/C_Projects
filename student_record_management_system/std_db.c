@@ -1,86 +1,120 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 
 #include "std_db.h"
 
-int number_of_students = 0;
-students array[10];
+student* head = NULL;
+student* new_student = NULL;
+student* temp = NULL;
+
+// static int count_students(void){
+//       int count = 0;
+//       temp = head;
+//       while(temp != NULL){
+//             count++;
+//             temp = temp -> next_address;
+//       }
+//       return count;
+// }
 
 void add_student(void){
 
-      if(number_of_students == 9){
-            printf("No more students can be added in the database !!!\n\n");
-      }
+      char nam[50];
+      unsigned long long int roll;
+      unsigned long long int phone;
+      float marks;
+      int sem;
 
+      temp = new_student;
+      new_student = (student*)malloc(sizeof(student));
+
+      while(getchar() != '\n');  // flush leftover '\n'
+
+      printf("Name : ");
+      scanf("%[^\n]", nam);
+      strcpy(new_student -> name, nam);
+
+      printf("Roll_no. :  ");
+      scanf("%llu", &roll);
+      new_student -> roll_no = roll;
+
+      printf("CGPA : ");
+      scanf("%f", &marks);
+      new_student -> CGPA = marks;
+
+      printf("Phone_Number : ");
+      scanf("%llu", &phone);
+      new_student -> ph_no = phone;
+
+      printf("Semester : ");
+      scanf("%d", &sem);
+      new_student -> semester = sem;
+
+      new_student -> next_address = NULL;
+
+      if(head == NULL){
+            head = new_student;
+      }
       else{
-            printf("Enter the Roll_NO. of the student : ");
-            scanf("%d", &array[number_of_students].roll_no);
-            while(getchar() != '\n');
-
-            printf("Enter the name of the student : ");
-            fgets(array[number_of_students].name, sizeof(array[number_of_students].name), stdin);
-            size_t length1 = strlen(array[number_of_students].name);
-            if(length1 > 0 && array[number_of_students].name[length1-1] == '\n'){
-                  array[number_of_students].name[length1-1] = '\0';
-            }
-      
-            printf("Enter the PH_NO. of the student : ");
-            fgets(array[number_of_students].ph_no, sizeof(array[number_of_students].ph_no), stdin);
-            size_t length2 = strlen(array[number_of_students].ph_no);
-            if(length2 > 0 && array[number_of_students].ph_no[length2-1] == '\n'){
-                  array[number_of_students].ph_no[length2-1] = '\0';
-            }
-      
-            printf("Enter the CGPA of the student : ");
-            scanf("%f", &array[number_of_students].CGPA);
-      
-            printf("Enter the year of the student : ");
-            scanf("%d", &array[number_of_students].year);
-      
-            printf("Enter the semester of the student : ");
-            scanf("%d", &array[number_of_students].semester);
-      
-            number_of_students++;
-
-            printf("\nStudent added in the database !!!\n\n");
+            temp -> next_address = new_student;
       }
-
 }
 
 void delete_student(void){
 
-      if(number_of_students == 0){
-            printf("\nThere is no student in the database !!!\n\n");
-      }
+      char choice;
 
+      if(head == NULL){
+            printf("\nThere is no student to remove from the database !!!\n\n");
+            printf("Do you want to add student to the database ?\n");
+            printf("Press 'Y' to add student or 'N' to exit the program : ");
+            scanf(" %c", &choice);
+            
+            if(choice == 'y' || choice =='Y'){
+                  printf("\n");
+                  add_student();
+            }
+            else{
+                  printf("\nThank You for using the program !!!\n\n");
+                  free_list();
+                  exit(0);
+            }
+      }
+      else if(head -> next_address == NULL){
+            printf("Student %s deleted from the database\n\n", head -> name);
+            free(head);
+            head = NULL;
+      }
       else{
-            printf("\n%d number student deleted from the database\n\n", number_of_students+1);
-            number_of_students--;
+            temp = head;
+            while((temp -> next_address) -> next_address != NULL){
+                  temp = temp -> next_address;
+            }
+            printf("Student %s deleted from the database\n\n", (temp -> next_address) -> name);
+            free(temp -> next_address);
+            temp -> next_address = NULL;
       }
-
 }
 
 void print_db(void){
 
-      printf("\n\nThe database contains the following students : \n\n");
-
-      for(int i = 0; i < number_of_students; i++){
-            
-            printf("%2d .", i+1);
-            // for name
-            // for(int j = 0; array[i].name[j] != '\0'; j++){
-            //       printf("%c", array[i].name[j]);
-            // }
-            printf("%-20s", array[i].name);
-
-            // for roll_no
-            printf("%-10d\t", array[i].roll_no);
-
-            // for CGPA
-            printf("%-10.2f\t", array[i].CGPA);
-
-            // for semester
-            printf("%-10d\n", array[i].semester);
+      printf("\n");
+      // see if we can make a table with the titles
+      temp = head;
+      while(temp != NULL){
+            printf("%s\t%llu\t%f\t%llu\t%d\n", temp -> name, temp -> roll_no, temp -> CGPA, temp -> ph_no, temp -> semester);
+            temp = temp -> next_address;
       }
+      printf("\n");
+}
 
+void free_list(){
+
+      temp = head;
+      while(temp != NULL){
+            student* free_memory = temp -> next_address;
+            free(temp);
+            temp = free_memory;
+      }
 }

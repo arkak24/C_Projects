@@ -4,33 +4,31 @@
 #include "std_db.h"
 
 int main(void){
-
       int choice;
 
       while(choice != 4){
-
-            printf("1. Add a student to the database\n");
-            printf("2. Delete a student from the database\n");
-            printf("3. Print the database\n");
-            printf("4. Exit program\n");
+            printf("\n\n1. Add student\n");
+            printf("2. Delete student\n");
+            printf("3. Display database\n");
+            printf("4. Exit program\n\n");
             printf("Enter your choice : ");
-            
             scanf("%d", &choice);
 
-            if(choice == 1){
-                  add_student();
-            }
-            else if(choice == 2){
-                  delete_student();
-            }
-            else if(choice == 3){
-                  print_db();
-            }
-            else if(choice == 4){
+            switch(choice){
+                  case 1 : add_student();
+                  break;
+
+                  case 2 : delete_student();
+                  break;
+
+                  case 3 : print_db();
+                  break;
+
+                  case 4 : printf("\nThank You for using the program !!!\n\n");
+                  free_list();
                   exit(0);
+
+                  default : printf("\nInvalid input !!!\n\n");
             }
-            else{
-                  printf("Invalid input !!!\n");
-            }
-      }     
+      }
 }
