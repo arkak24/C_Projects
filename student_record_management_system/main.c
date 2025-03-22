@@ -1,10 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "std_db.h"
+#include "../include/std_db.h"
+#include "../include/file_handler.h"
 
 int main(void){
-      int choice;
+
+      load_database_from_file();
+
+      int choice = 0;
 
       while(choice != 4){
             printf("\n\n1. Add student\n");
@@ -24,7 +28,8 @@ int main(void){
                   case 3 : print_db();
                   break;
 
-                  case 4 : printf("\nThank You for using the program !!!\n\n");
+                  case 4 : save_database_to_file();
+                  printf("\nThank You for using the program !!!\n\n");
                   free_list();
                   exit(0);
 

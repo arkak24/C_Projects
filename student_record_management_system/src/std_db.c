@@ -2,7 +2,7 @@
 #include <string.h>
 #include <stdlib.h>
 
-#include "std_db.h"
+#include "../include/std_db.h"
 
 student* head = NULL;
 student* new_student = NULL;
@@ -26,7 +26,7 @@ void add_student(void){
       float marks;
       int sem;
 
-      temp = new_student;
+      // temp = new_student;
       new_student = (student*)malloc(sizeof(student));
 
       while(getchar() != '\n');  // flush leftover '\n'
@@ -57,6 +57,14 @@ void add_student(void){
             head = new_student;
       }
       else{
+            // temp -> next_address = new_student;
+            // don't use it ^ over here
+            // during file operations the temp is dangling
+            
+            temp = head;
+            while(temp -> next_address != NULL){
+                  temp = temp -> next_address;
+            }
             temp -> next_address = new_student;
       }
 }
@@ -82,7 +90,7 @@ void delete_student(void){
             }
       }
       else if(head -> next_address == NULL){
-            printf("Student %s deleted from the database\n\n", head -> name);
+            printf("Student '%s' deleted from the database\n\n", head -> name);
             free(head);
             head = NULL;
       }
@@ -91,7 +99,7 @@ void delete_student(void){
             while((temp -> next_address) -> next_address != NULL){
                   temp = temp -> next_address;
             }
-            printf("Student %s deleted from the database\n\n", (temp -> next_address) -> name);
+            printf("Student '%s' deleted from the database\n\n", (temp -> next_address) -> name);
             free(temp -> next_address);
             temp -> next_address = NULL;
       }
