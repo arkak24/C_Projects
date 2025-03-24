@@ -3,6 +3,7 @@
 #include <stdlib.h>
 
 #include "../include/std_db.h"
+#include "../include/file_handler.h"
 
 student* head = NULL;
 student* new_student = NULL;
@@ -75,6 +76,9 @@ void delete_student(void){
 
       if(head == NULL){
             printf("\nThere is no student to remove from the database !!!\n\n");
+
+            save_database_to_file();
+
             printf("Do you want to add student to the database ?\n");
             printf("Press 'Y' to add student or 'N' to exit the program : ");
             scanf(" %c", &choice);
@@ -84,7 +88,10 @@ void delete_student(void){
                   add_student();
             }
             else{
-                  printf("\nThank You for using the program !!!\n\n");
+                  printf("saving empty database\n");  //for debugging
+                  save_database_to_file();
+                  printf("Database saved\n");   //for debugging
+                  //printf("\nThank You for using the program !!!\n\n");
                   free_list();
                   exit(0);
             }
@@ -103,6 +110,7 @@ void delete_student(void){
             free(temp -> next_address);
             temp -> next_address = NULL;
       }
+      save_database_to_file();
 }
 
 void print_db(void){

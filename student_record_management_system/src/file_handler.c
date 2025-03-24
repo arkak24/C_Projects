@@ -72,6 +72,12 @@ void save_database_to_file(void){
             printf("Error opening file !!!\n");
             return;
       }
+
+      if(head == NULL){
+            printf("file should be empty\n");   //debug
+            fclose(fp);
+            return;
+      }
       
       student* current = head;
       while(current != NULL){
@@ -87,4 +93,5 @@ void save_database_to_file(void){
       }
 
       fclose(fp);
+      printf("database updated\n"); //debug
 }
