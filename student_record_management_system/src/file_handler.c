@@ -39,8 +39,6 @@ void load_database_from_file(void){
                   &new_node->semester     
             );
 
-            printf("result -> %d\n", result);
-
             if(result != 5){
                   if (feof(fp)){
                         free(new_node);
@@ -74,7 +72,7 @@ void save_database_to_file(void){
       }
 
       if(head == NULL){
-            printf("file should be empty\n");   //debug
+            // printf("file should be empty\n");   //debug
             fclose(fp);
             return;
       }
@@ -93,5 +91,5 @@ void save_database_to_file(void){
       }
 
       fclose(fp);
-      printf("database updated\n"); //debug
+      // printf("database updated\n"); //debug
 }

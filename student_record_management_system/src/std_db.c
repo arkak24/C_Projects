@@ -27,7 +27,6 @@ void add_student(void){
       float marks;
       int sem;
 
-      // temp = new_student;
       new_student = (student*)malloc(sizeof(student));
 
       while(getchar() != '\n');  // flush leftover '\n'
@@ -88,10 +87,9 @@ void delete_student(void){
                   add_student();
             }
             else{
-                  printf("saving empty database\n");  //for debugging
                   save_database_to_file();
-                  printf("Database saved\n");   //for debugging
-                  //printf("\nThank You for using the program !!!\n\n");
+
+                  printf("\nThank You for using the program !!!\n\n");
                   free_list();
                   exit(0);
             }
