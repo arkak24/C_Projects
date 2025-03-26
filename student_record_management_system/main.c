@@ -5,6 +5,7 @@
 #include "../include/file_handler.h"
 #include "../include/search.h"
 #include "../include/main_menu.h"
+#include "../include/update.h"
 
 void main_menu(void){
       int choice = 0;
@@ -14,7 +15,8 @@ void main_menu(void){
             printf("2. Delete student\n");
             printf("3. Display database\n");
             printf("4. Search student\n");
-            printf("5. Exit program\n\n");
+            printf("5. Update student\n");
+            printf("6. Exit program\n\n");
             printf("Enter your choice : ");
             scanf("%d", &choice);
 
@@ -31,7 +33,10 @@ void main_menu(void){
                   case 4 : search_student();
                   break;
 
-                  case 5 : save_database_to_file();
+                  case 5 : update_student();
+                  break;
+                  
+                  case 6 : save_database_to_file();
                   printf("\nThank You for using the program !!!\n\n");
                   free_list();
                   exit(0);
