@@ -71,6 +71,9 @@ void add_student(void){
 
 void delete_student(void){
 
+      student* temp_ptr = NULL;
+      student* del_ptr = NULL;
+
       char choice;
 
       if(head == NULL){
@@ -94,21 +97,56 @@ void delete_student(void){
                   exit(0);
             }
       }
-      else if(head -> next_address == NULL){
-            printf("Student '%s' deleted from the database\n\n", head -> name);
-            free(head);
-            head = NULL;
-      }
+
       else{
-            temp = head;
-            while((temp -> next_address) -> next_address != NULL){
-                  temp = temp -> next_address;
+            unsigned long long int roll_delete;
+            printf("Enter the Roll No. of the student to delete : ");
+            scanf("%lld", &roll_delete);
+
+            if(head -> next_address == NULL){
+                  if(head -> roll_no == roll_delete){
+                        printf("Student '%s' deleted from the database!\n\n", head -> name);
+                        free(head);
+                        head = NULL;
+                  }
+                  else{
+                        printf("No such Roll No. present in the database!\n");
+                  }
             }
-            printf("Student '%s' deleted from the database\n\n", (temp -> next_address) -> name);
-            free(temp -> next_address);
-            temp -> next_address = NULL;
+            else if((head -> roll_no) == roll_delete){
+                  del_ptr = head;
+                  head = head -> next_address;
+                  printf("Student '%s' deleted from the database!\n\n", del_ptr -> name);
+                  free(del_ptr);
+            }
+            else{
+                  int found = 0;
+                  
+                  temp_ptr = head;
+                  printf("\n");
+                  while((temp_ptr != NULL) && (temp_ptr -> next_address) != NULL){  
+                  // (temp_ptr -> next_address) != NULL : consider this for the last node
+                        if(((temp_ptr -> next_address) -> roll_no) == roll_delete){
+                              found = 1;
+                              break;
+                        }
+                        temp_ptr = temp_ptr -> next_address;
+                  }
+            
+                  if(found == 0){  
+                        printf("No such student present in the database!\n\n");
+                        return;
+                  }
+                  else{
+                        del_ptr = temp_ptr -> next_address;
+                        temp_ptr -> next_address = (temp_ptr -> next_address) -> next_address;
+                        printf("Student '%s' deleted from the database!\n\n", del_ptr -> name);
+                        free(del_ptr);
+                  }
+            }
+      
+            save_database_to_file();
       }
-      save_database_to_file();
 }
 
 void print_db(void){
