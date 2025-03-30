@@ -67,6 +67,7 @@ void add_student(void){
             }
             temp -> next_address = new_student;
       }
+      save_database_to_file();
 }
 
 void delete_student(void){
@@ -159,6 +160,8 @@ void print_db(void){
             temp = temp -> next_address;
       }
       printf("\n");
+
+      // add the sorting thing here
 }
 
 void free_list(){

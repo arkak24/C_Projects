@@ -11,7 +11,8 @@ void main_menu(void){
       int choice = 0;
 
       while(choice != 4){
-            printf("\n\n1. Add student\n");
+            printf("\n\n<---------- MAIN_MENU ---------->\n\n");
+            printf("1. Add student\n");
             printf("2. Delete student\n");
             printf("3. Display database\n");
             printf("4. Search student\n");
