@@ -4,7 +4,7 @@
 
 #include "../include/file_handler.h"
 
-#define FILENAME "database.txt"
+#define FILENAME "database.csv"
 
 void load_database_from_file(void){
 
@@ -17,21 +17,24 @@ void load_database_from_file(void){
       student* new_node = NULL;
       student* tail = NULL;
 
+      char header[100];
+      fgets(header, sizeof(header), fp);
+
       while(1){
 
             tail = new_node;
 
             new_node = (student*)malloc(sizeof(student));
+
             if (new_node == NULL){
                   printf("Memory allocation failed!\n");
                   break;
             }
 
-            // -------> char name_buffer[100]; // temp buffer for the name
-
+            // reading data from the csv file
             int result = fscanf(
                   fp,
-                  "%[^\t]\t%llu\t%llu\t%f\t%d\n",
+                  "%99[^,],%llu,%llu,%f,%d\n",
                   new_node->name,        
                   &new_node->roll_no,     
                   &new_node->ph_no,       
@@ -72,24 +75,25 @@ void save_database_to_file(void){
       }
 
       if(head == NULL){
-            // printf("file should be empty\n");   //debug
             fclose(fp);
             return;
       }
       
       student* current = head;
+
+      fprintf(fp, "Name,Roll No,Phone No,CGPA,Semester\n");
+
       while(current != NULL){
 
             // prints student data to the file
-            fprintf(fp, "%s\t", current -> name);
-            fprintf(fp, "%llu\t", current -> roll_no);
-            fprintf(fp, "%llu\t", current -> ph_no);
-            fprintf(fp, "%f\t", current -> CGPA);
+            fprintf(fp, "%s,", current -> name);
+            fprintf(fp, "%llu,", current -> roll_no);
+            fprintf(fp, "%llu,", current -> ph_no);
+            fprintf(fp, "%f,", current -> CGPA);
             fprintf(fp, "%d\n", current -> semester);
 
             current = current -> next_address;
       }
 
       fclose(fp);
-      // printf("database updated\n"); //debug
 }

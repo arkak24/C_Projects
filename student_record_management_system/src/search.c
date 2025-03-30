@@ -25,7 +25,8 @@ static void search_by_name(void){
                   int i = 0;
                   while(((temp4 -> name)[i] != '\0') && (temp_name[i] != '\0')){
                         if (((temp4 -> name)[i] != temp_name[i]) && ((temp4 -> name)[i] != temp_name[i]+32) && ((temp4 -> name)[i]+32 != temp_name[i])){
-                              found = 0;
+                              // found = 0;
+                              // if found present then it also updates itself until the last student name is checked
                               break;
                         }
                         i++; 
